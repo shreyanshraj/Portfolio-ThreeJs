@@ -183,6 +183,28 @@ loader.load( './rc_final_export.glb', function ( glb ) {
     } );
 
     scene.add( glb.scene );
+    // Compute bounding box and center
+    const box = new THREE.Box3().setFromObject(glb.scene);
+    const center = new THREE.Vector3();
+    box.getCenter(center); // exact center of model
+    const size = new THREE.Vector3();
+    box.getSize(size);
+
+    // Set camera position relative to center (slightly above & back)
+    const offset = 2; 
+    camera.position.set(
+        center.x + size.x * offset,
+        center.y + size.y * offset,
+        center.z + size.z * offset
+    );
+
+    // Make camera look at model center
+    camera.lookAt(center);
+    camera.updateProjectionMatrix();
+
+    // // Update OrbitControls target
+    // controls.target.copy(center);
+    // controls.update();
 
 }, undefined, function ( error ) {
 
@@ -228,9 +250,16 @@ const camera = new THREE.OrthographicCamera(
     1, 
     1000 );
 
-camera.position.x = 6.151;
-camera.position.y = 5.536;
-camera.position.z = 7.462;
+camera.position.x = 8.046614195439764;
+camera.position.y = 8.471611203550893;
+camera.position.z = 9.374897474480889;
+camera.zoom = 9.8;
+
+camera.updateProjectionMatrix();
+
+const axesHelper = new THREE.AxesHelper( 5 );
+scene.add( axesHelper );
+// console.log(axesHelper);;
 
 
 // OrbitControls
@@ -275,7 +304,7 @@ function handleClick() {
 // Animation Loop
 function animate() {    
     // console.log('====================================');
-    // console.log(camera.position);
+    console.log(camera);
     // console.log('====================================');
     raycaster.setFromCamera( pointer, camera );
 
