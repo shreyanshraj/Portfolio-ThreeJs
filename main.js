@@ -1,9 +1,19 @@
+// TO DO tasks
+// 1. Customize project details and ref links in modalContent object
+// 2. Add animations to modal (GSAP?)
+// 3. Improve mobile responsiveness
+// 4. Optimize 3D model for better performance
+// 5. Add loading screen while model loads
+
+
+
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 const raycaster = new THREE.Raycaster();
 const pointer = new THREE.Vector2();
+const manager = new THREE.LoadingManager();
 
 // Scene Setup
 const scene = new THREE.Scene();
@@ -13,7 +23,7 @@ const sizes = {
     height: window.innerHeight
 };
 
-let intersectObject = "";
+
 
 const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
 renderer.setSize( sizes.width, sizes.height );
@@ -26,140 +36,116 @@ renderer.toneMapping = THREE.ACESFilmicToneMapping;
 
 // console.log(THREE.REVISION);
 
+const modalContent = {
+    "Plane061_Baked":{
+        title: 'this is placeholder title',
+        content: 'this is project 1, hello world',
+    },
+    "Text004_Baked":{
+        title: 'this is placeholder title',
+        content: 'this is project 1, hello world',
+    },
+    "Plane063_Baked":{
+        title: 'this is placeholder title',
+        content: 'this is project 1, hello world',
+    },
+    "Text002_Baked":{
+        title: 'this is placeholder title',
+        content: 'this is project 1, hello world',
+    },
+    "Plane065_Baked":{
+        title: 'this is placeholder title',
+        content: 'this is project 1, hello world',
+    },
+    "Text001_Baked":{
+        title: 'this is placeholder title',
+        content: 'this is project 1, hello world',
+    },
+    "Plane067_Baked":{
+        title: 'this is placeholder title',
+        content: 'this is project 1, hello world',
+    },
+    "Text003_Baked":{
+        title: 'this is placeholder title',
+        content: 'this is project 1, hello world',
+    },
+    "wallpaper_r001":{
+        title: 'this is placeholder title',
+        content: 'this is project 1, hello world',
+    },
+    "wallpaper_l001":{
+        title: 'this is placeholder title',
+        content: 'this is project 1, hello world',
+    },
+    "Legal_Note_Pad_White_Baked": {
+        title: 'this is placeholder title',
+        content: 'this is project 1, hello world', 
+    },
+    "github_logo_Baked": {
+        title: 'this is placeholder title',
+        content: 'this is project 1, hello world',
+        link: 'www.github.com'
 
+    },
+    "linkedin_Baked": {
+        title: 'this is placeholder title',
+        content: 'this is project 1, hello world',
+        link: 'www.linkedin.com'
+
+    },
+    "mail_logo_Baked": {
+        title: 'this is placeholder title',
+        content: 'this is project 1, hello world',
+        link: 'www.gmail.com'
+
+    },
+}
+
+const modal = document.querySelector('.modal');
+const modalTitle = document.querySelector('.modal-title');
+const modalProjectDescription = document.querySelector('.modal-proj-desc');
+const modalExitBtn = document.querySelector('.modal-exit-button');
+const modalVisitBtn = document.querySelector('.modal-visit-btn');
+
+
+function showModal(id) {
+    const content = modalContent[id];
+    if (content) {
+        modalTitle.textContent = content.title;
+        modalProjectDescription.textContent = content.content;
+        modal.classList.toggle('hidden');
+    }
+
+    if (content.link) {
+        modalVisitBtn.classList.remove('hidden');
+        modalVisitBtn.href = content.link;
+    }
+    else {
+        modalVisitBtn.classList.add('hidden');
+    }
+}
+
+function hideModal() {
+    modal.classList.toggle('hidden');
+}
+
+
+let intersectObject = "";
 const intersectObjectsNames = [
-    "Cube006_Baked",
-    "Cube017_Baked",
-    "Cube003_Baked",
-    "Cube002_Baked",
-    "mattress_Baked",
-    "window_Baked",
-    "lower_window_Baked",
-    "shade_Baked",
-    "window_shade1_Baked",
-    "window_shade2_Baked",
-    "floor_Baked",
-    "wall_Baked",
-    "ceiling_Baked",
-    "desk_top",
-    "left_left_top",
-    "left_leg_bottom",
-    "left_left_supp",
-    "right_left_top",
-    "right_left_bottom",
-    "right_left_supp",
-    "system_Baked",
-    "system_top_Baked",
-    "Plane079_Baked",
-    "Plane080_Baked",
-    "Plane081_Baked",
-    "Plane082_Baked",
-    "Cube007_Baked",
-    "Plane101",
-    "Plane101_1",
-    "Plane060_Baked",
-    "Plane062_Baked",
-    "Plane064_Baked",
-    "Plane066_Baked",
-    "Plane059_Baked",
     "Plane061_Baked",
+    "Text004_Baked",
     "Plane063_Baked",
+    "Text002_Baked",
     "Plane065_Baked",
+    "Text001_Baked",
     "Plane067_Baked",
     "Text003_Baked",
-    "Text002_Baked",
-    "Text004_Baked",
-    "Text001_Baked",
-    "Carpet_Baked",
-    "clock_Baked",
-    "fl_base_Baked",
-    "fl_base_up_Baked",
-    "fl_lamp_stand_Baked",
-    "fl_lamp_arm_Baked",
-    "lamp_Baked",
-    "fl_lamp_hang_Baked",
-    "fl_arm_conn_Baked",
-    "Plane071_Baked",
-    "wall_light_conn_Baked",
-    "wall_light_Baked",
-    "wl_left1_Baked",
-    "wl_left2_Baked",
-    "wl_3_Baked",
-    "wl_4_Baked",
-    "Plane057_Baked",
-    "House_Plant_Dracaena_Lemon_Lime_Baked",
-    "Plane_A1_Plant_A_0001_Baked",
-    "Plane_A1001_Plant_A_0001_Baked",
-    "Plane_A1002_Plant_A_0001_Baked",
-    "Plane_A1003_Plant_A_0001_Baked",
-    "Plane_A1001_Plant_A_0002_Baked",
-    "Plane058_Baked",
-    "Plane072_Baked",
-    "Plane073_Baked",
-    "Plane074_Baked",
-    "Plane075_Baked",
-    "Plane076_Baked",
-    "Plane077_Baked",
-    "Plane078_Baked",
-    "medal_3_Baked",
-    "medal_4_Baked",
-    "medal_hm_Baked",
-    "social_media_shelf_supp001_Baked",
-    "Chair_Chair_0_Baked",
-    "Cylinder001_Baked",
-    "Chair_Chair_0001_Baked",
-    "Plane052_Baked",
-    "Plane053_Baked",
-    "Plane054_Baked",
-    "Plane055_Baked",
-    "Plane056_Baked",
-    "f1_shelf_supp_Baked",
-    "social_media_shelf_supp_Baked",
-    "mail_logo_Baked",
+    "wallpaper_r001",
+    "wallpaper_l001",
+    "Legal_Note_Pad_White_Baked",
     "github_logo_Baked",
     "linkedin_Baked",
-    "Plane001_Baked",
-    "Plane002_Baked",
-    "Plane003_Baked",
-    "Plane005_Baked",
-    "Object_2_Baked",
-    "monitor_base_l_Baked",
-    "monitor_base_r_Baked",
-    "keyboard_Baked",
-    "mouse_Baked",
-    "pen_stand_Baked",
-    "mug_Baked",
-    "pen_Baked",
-    "Legal_Note_Pad_White_Baked",
-    "base_Baked",
-    "lamp_conn_Baked",
-    "lamp_top_Baked",
-    "monitor_base_r001",
-    "wallpaper_r001",
-    "monitor_base_l001",
-    "wallpaper_l001",
-    "Cylinder007_Baked",
-    "Cylinder008_Baked",
-    "Cylinder009_Baked",
-    "Cylinder012_Baked",
-    "Cylinder013_Baked",
-    "Cylinder014_Baked",
-    "BézierCurve003_Baked",
-    "BézierCurve004_Baked",
-    "BézierCurve005_Baked",
-    "backstand_l_Baked",
-    "screen_l_Baked",
-    "back_stand_R_Baked",
-    "screen_r_Baked",
-    "bulb_Baked",
-    "legs001_Baked",
-    "legs_Baked",
-    "plafon_Baked",
-    "screen_r_Baked",
-    "bulb_Baked",
-    "legs001_Baked",
-    "legs_Baked",
-    "plafon_Baked"
+    "mail_logo_Baked"
 ];
 
 const intersectObjects = [];
@@ -228,12 +214,16 @@ scene.add( sun );
 // console.log(sun.position);
 
 
-const shadowHelper = new THREE.CameraHelper( sun.shadow.camera );
-scene.add( shadowHelper );
+// const shadowHelper = new THREE.CameraHelper( sun.shadow.camera );
+// scene.add( shadowHelper );
 
 
-const helper = new THREE.DirectionalLightHelper( sun, 5 );
-scene.add( helper );
+// const helper = new THREE.DirectionalLightHelper( sun, 5 );
+// scene.add( helper );
+
+// const axesHelper = new THREE.AxesHelper( 5 );
+// scene.add( axesHelper );
+// console.log(axesHelper);;
 
 // ambient Light
 const light = new THREE.AmbientLight( 0x404040, 3 );
@@ -257,15 +247,15 @@ camera.zoom = 9.8;
 
 camera.updateProjectionMatrix();
 
-const axesHelper = new THREE.AxesHelper( 5 );
-scene.add( axesHelper );
-// console.log(axesHelper);;
+
 
 
 // OrbitControls
 const controls = new OrbitControls( camera, canvas );
 controls.update();
 
+controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
+controls.dampingFactor = 0.05;
 
 // Window Resize Handler
 function handleResize() {
@@ -291,20 +281,24 @@ function handlePointerMove( event ) {
 	pointer.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
 }
 
-
+modalExitBtn.addEventListener('click', hideModal);
 window.addEventListener('resize', handleResize);
 window.addEventListener('pointermove', handlePointerMove);
 window.addEventListener('click', handleClick);
 
 function handleClick() {
     console.log(intersectObject);
+    if (intersectObject !== "") {
+        showModal(intersectObject);
+    }
+    
     
 };
 
 // Animation Loop
 function animate() {    
     // console.log('====================================');
-    console.log(camera);
+    // console.log(camera);
     // console.log('====================================');
     raycaster.setFromCamera( pointer, camera );
 
