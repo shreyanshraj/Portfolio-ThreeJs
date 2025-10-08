@@ -5,6 +5,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="./style.css">
 </head>
 
@@ -13,6 +18,27 @@
   <div id="experience">
     <canvas id="experience-canvas"></canvas>
   </div>
+
+  <div class="modal hidden">
+    <div class="modal-wrapper">
+      <div class="modal-header">
+        <h1 class="modal-title">Title place</h1>
+        <button class="modal-exit-button">exit</button>
+      </div>
+      <div class="modal-content">
+        <div class="modal-content-wrapper">
+          <a class="modal-visit-btn">View Project</a>
+          <div class="modal-proj-desc">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Impedit, aut laborum
+            nam, magni, possimus dolore sit quibusdam sequi ratione nesciunt incidunt perferendis itaque asperiores
+            maiores est inventore corrupti doloremque quod?
+            Soluta similique, delectus saepe laudantium a doloremque repellat nihil. Facere consequuntur velit dolores
+            laboriosam pariatur quo reprehenderit cumque, rem fugiat, assumenda minus quas accusamus nam possimus ea
+            maxime ab et.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script type="importmap">
     {
       "imports": {
@@ -20,7 +46,7 @@
         "three/addons/": "https://cdn.jsdelivr.net/npm/three@v0.149.0/examples/jsm/"
       }
     }
-    </script>
+  </script>
   <script type="module" src="./main.js"></script>
 </body>
 

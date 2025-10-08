@@ -2,7 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    background-color: azure;
+    font-family: 'Ubuntu', sans-serif;
 }
 
 #experience{
@@ -17,4 +17,31 @@
 #experience-canvas{
     width: 100%;
     height: 100%;
+}
+
+.hidden{
+    display: none;
+}
+
+.modal{
+    z-index: 999;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    max-width: 85vw;
+    background-color: rgb(209, 223, 239);
+    border: 2px solid white;
+}
+
+.modal-wrapper{
+    padding: 20px;
+}
+
+.modal-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 10px;
 }
