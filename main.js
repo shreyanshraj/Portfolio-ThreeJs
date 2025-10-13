@@ -1,5 +1,5 @@
 // TO DO tasks
-// 1. Customize project details and ref links in modalContent object
+// 1. Customize project details and ref links in modalContent object--done
 // 2. Add animations to modal (GSAP?)
 // 3. Improve mobile responsiveness
 // 4. Optimize 3D model for better performance
@@ -10,6 +10,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { RectAreaLightHelper } from 'three/addons/helpers/RectAreaLightHelper.js';
 
 const raycaster = new THREE.Raycaster();
 const pointer = new THREE.Vector2();
@@ -36,38 +37,43 @@ renderer.toneMapping = THREE.ACESFilmicToneMapping;
 
 // console.log(THREE.REVISION);
 
+
 const modalContent = {
-    "Plane061_Baked":{
-        title: 'this is placeholder title',
-        content: 'this is project 1, hello world',
-    },
+
+    // Home - redirect to home page (redesign to make it more intuitive)
     "Text004_Baked":{
-        title: 'this is placeholder title',
-        content: 'this is project 1, hello world',
+        
+        action: () => { window.location.href = '/'; }
     },
-    "Plane063_Baked":{
-        title: 'this is placeholder title',
-        content: 'this is project 1, hello world',
-    },
+    
+    // About Me
     "Text002_Baked":{
-        title: 'this is placeholder title',
-        content: 'this is project 1, hello world',
+        title: 'About Me',
+        content: 'I am Shreyansh Raj, an AWS Certified Developer – Associate and Computer Science graduate from Arizona State University (Class of 2025) with over five years of professional IT experience in software development and cloud-based solutions. <br> <br> My technical expertise includes Python, JavaScript, and SQL, along with hands-on experience in AWS, D3.js, React, and Node.js. I specialize in designing scalable, efficient, and secure backend systems, developing RESTful APIs, and implementing data integration pipelines and automation workflows using cloud-native tools and DevOps practices.<br>At ASU’s MIX Center, I have also led operational and technical initiatives—streamlining digital workflows, inventory management, and data reporting through automation and cloud-native architecture. <br><br>I’m constantly learning new technologies to expand my skill set — most recently exploring Three.js and Blender to create interactive 3D experiences for my personal portfolio.',
     },
-    "Plane065_Baked":{
-        title: 'this is placeholder title',
-        content: 'this is project 1, hello world',
-    },
+
+    //  "Plane063_Baked":{
+    //      }
+    // },
+
+    // Projects- need to update (open new windows showing few projects details or maybe redirect to github page)
     "Text001_Baked":{
-        title: 'this is placeholder title',
-        content: 'this is project 1, hello world',
+        title: 'View Projects',
+        content: 'This is project page',
     },
-    "Plane067_Baked":{
-        title: 'this is placeholder title',
-        content: 'this is project 1, hello world',
-    },
+
+    // Resume
     "Text003_Baked":{
-        title: 'this is placeholder title',
-        content: 'this is project 1, hello world',
+        title: 'View my Resume',
+        content: 'Opening Resume PDF...',
+
+        action: () => { 
+            showModal("Text003_Baked");
+
+            setTimeout(() => {
+                window.open('./SHREYANSH RAJ_Software Developer.pdf','_blank').focus();
+            }, 1000);
+        }
     },
     "wallpaper_r001":{
         title: 'this is placeholder title',
@@ -82,24 +88,32 @@ const modalContent = {
         content: 'this is project 1, hello world', 
     },
     "github_logo_Baked": {
-        title: 'this is placeholder title',
-        content: 'this is project 1, hello world',
-        link: 'www.github.com'
+        title: 'GitHub Profile',
+        content: 'Explore my projects and repositories on GitHub.',
+        link: 'https://github.com/shreyanshraj'
 
     },
     "linkedin_Baked": {
-        title: 'this is placeholder title',
-        content: 'this is project 1, hello world',
-        link: 'www.linkedin.com'
+        title: 'LinkedIn',
+        content: 'Connect with me on LinkedIn to see my professional experience and network.',
+        link: 'https://www.linkedin.com/in/shreyanshraj/'
 
     },
     "mail_logo_Baked": {
-        title: 'this is placeholder title',
-        content: 'this is project 1, hello world',
-        link: 'www.gmail.com'
+        title: 'Email',
+        content: 'Feel free to reach out to me via email at shreyanshraj@gmail.com <br> I look forward to connecting with you!',
+        // action: () => { 
+        //     showModal("mail_logo_Baked");
+
+        //     setTimeout(() => {
+        //         window.open('mailto:shreyanshraj@gmail.com','_blank').focus();
+        //     }, 400);
+            
+        // }
 
     },
 }
+
 
 const modal = document.querySelector('.modal');
 const modalTitle = document.querySelector('.modal-title');
@@ -112,13 +126,16 @@ function showModal(id) {
     const content = modalContent[id];
     if (content) {
         modalTitle.textContent = content.title;
-        modalProjectDescription.textContent = content.content;
+        // modalProjectDescription.textContent = content.content;
+
+        modalProjectDescription.innerHTML = content.content;
         modal.classList.toggle('hidden');
     }
 
     if (content.link) {
         modalVisitBtn.classList.remove('hidden');
         modalVisitBtn.href = content.link;
+        modalVisitBtn.textContent = `Visit ${content.title}`;
     }
     else {
         modalVisitBtn.classList.add('hidden');
@@ -132,13 +149,13 @@ function hideModal() {
 
 let intersectObject = "";
 const intersectObjectsNames = [
-    "Plane061_Baked",
+    // "Plane061_Baked", // home board
     "Text004_Baked",
-    "Plane063_Baked",
+    // "Plane063_Baked", // about me board
     "Text002_Baked",
-    "Plane065_Baked",
+    // "Plane065_Baked", // projects board
     "Text001_Baked",
-    "Plane067_Baked",
+    // "Plane067_Baked", //Resume board
     "Text003_Baked",
     "wallpaper_r001",
     "wallpaper_l001",
@@ -199,10 +216,11 @@ loader.load( './rc_final_export.glb', function ( glb ) {
 } );
 
 
+// sun light
 const sun = new THREE.DirectionalLight( 0xfbc08d);
 sun.castShadow = true;  
 sun.position.set( 150, 180, 0 );
-sun.intensity = 1;
+sun.intensity = 0.5;
 sun.shadow.camera.left = -4;
 sun.shadow.camera.right = 4;
 sun.shadow.camera.top = 4;
@@ -210,6 +228,55 @@ sun.shadow.camera.bottom = -4;
 sun.shadow.normalBias = 0.05;
 
 scene.add( sun );
+
+
+// social logos light
+const logoLight = new THREE.SpotLight( 0xffffff);
+
+logoLight.position.set( -2, 4.5, 10 );
+const distance = 5;
+const newTargetPos = new THREE.Vector3(
+    logoLight.position.x,
+    logoLight.position.y,
+    logoLight.position.z - distance 
+);
+logoLight.target.position.copy(newTargetPos);
+logoLight.intensity = 1.5;
+logoLight.angle = Math.PI / 24;
+logoLight.penumbra = 1;
+scene.add( logoLight );
+const helper2 = new THREE.SpotLightHelper( logoLight );
+helper2.visible = false;
+// scene.add( helper2 );
+
+
+// // window light
+const rectwidth = 3;
+const rectheight = 2.5;
+const rectintensity = 3.5;
+const rectLight = new THREE.RectAreaLight(0xffffff, rectintensity, rectwidth, rectheight);
+
+rectLight.position.set(1, 3, -3.5);
+
+const rectAngle = Math.PI; // 180 degrees
+rectLight.rotation.y = rectAngle;
+scene.add(rectLight);
+
+const rectLightHelper = new RectAreaLightHelper(rectLight);
+rectLightHelper.visible = false;
+scene.add(rectLightHelper);
+
+
+// Contact board light
+const contactLight = new THREE.RectAreaLight(0xfffaeb, 2, 1.5, 3);
+contactLight.position.set(-2, 4.5, 3.8);
+contactLight.rotation.y = Math.PI/2; // 90 degrees
+scene.add(contactLight);
+
+const contactLightHelper = new RectAreaLightHelper(contactLight);
+contactLightHelper.visible = false;
+scene.add(contactLightHelper);
+
 
 // console.log(sun.position);
 
@@ -221,8 +288,10 @@ scene.add( sun );
 // const helper = new THREE.DirectionalLightHelper( sun, 5 );
 // scene.add( helper );
 
-// const axesHelper = new THREE.AxesHelper( 5 );
-// scene.add( axesHelper );
+
+const axesHelper = new THREE.AxesHelper( 5 );
+// axesHelper.setColors( new THREE.Color(0xff0000), new THREE.Color(0xffffff), new THREE.Color(0x0000ff) );
+scene.add( axesHelper );
 // console.log(axesHelper);;
 
 // ambient Light
@@ -289,6 +358,15 @@ window.addEventListener('click', handleClick);
 function handleClick() {
     console.log(intersectObject);
     if (intersectObject !== "") {
+
+        const content = modalContent[intersectObject];
+
+        if (!content) return;
+        if (typeof content.action === 'function') {
+            content.action();
+            return;
+        }
+
         showModal(intersectObject);
     }
     
