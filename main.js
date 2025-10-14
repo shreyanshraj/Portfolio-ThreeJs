@@ -32,11 +32,22 @@ renderer.setPixelRatio( Math.min(window.devicePixelRatio, 2) );
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;  
 renderer.shadowMap.enabled = true;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
-// renderer.toneMappingExposure = 1.5;
 
+// Glass Material
+const glassMaterial = new THREE.MeshPhysicalMaterial({
+    color: 0xffffff,   
+    metalness: 0,      
+    roughness: 0,      
+    transmission: 1,   
+    transparent: true, 
+    opacity: 0.5,      
+    clearcoat: 1,
+    clearcoatRoughness: 0,
+});
 
-// console.log(THREE.REVISION);
-
+glassMaterial.ior = 1.5; 
+glassMaterial.emissive = new THREE.Color(0xffffff);
+glassMaterial.emissiveIntensity = 1; 
 
 const modalContent = {
 
@@ -178,6 +189,11 @@ loader.load( './rc_final_export.glb', function ( glb ) {
             intersectObjects.push(child);
         }
         if ( child.isMesh ) {
+            if (child.name === "Plane101_1" || child.name === "lower_window_Baked") {
+                child.material = glassMaterial;
+                child.castShadow = true;
+                child.receiveShadow = true;
+            }
             child.castShadow = true;
             child.receiveShadow = true;
             // console.log(child.name);
@@ -216,6 +232,7 @@ loader.load( './rc_final_export.glb', function ( glb ) {
 } );
 
 
+
 // sun light
 const sun = new THREE.DirectionalLight( 0xfbc08d);
 sun.castShadow = true;  
@@ -247,7 +264,7 @@ logoLight.penumbra = 1;
 scene.add( logoLight );
 const helper2 = new THREE.SpotLightHelper( logoLight );
 helper2.visible = false;
-// scene.add( helper2 );
+scene.add( helper2 );
 
 
 // // window light
@@ -255,13 +272,10 @@ const rectwidth = 3;
 const rectheight = 2.5;
 const rectintensity = 3.5;
 const rectLight = new THREE.RectAreaLight(0xffffff, rectintensity, rectwidth, rectheight);
-
 rectLight.position.set(1, 3, -3.5);
-
 const rectAngle = Math.PI; // 180 degrees
 rectLight.rotation.y = rectAngle;
 scene.add(rectLight);
-
 const rectLightHelper = new RectAreaLightHelper(rectLight);
 rectLightHelper.visible = false;
 scene.add(rectLightHelper);
@@ -277,6 +291,36 @@ const contactLightHelper = new RectAreaLightHelper(contactLight);
 contactLightHelper.visible = false;
 scene.add(contactLightHelper);
 
+// table light-rect
+const tableLight = new THREE.RectAreaLight(0xf7ee97, 1.5, 2, 1);
+tableLight.position.set(1, 2.2, -2.2);
+tableLight.rotation.x = -Math.PI / 2;
+scene.add(tableLight);
+const tableLightHelper = new RectAreaLightHelper(tableLight);
+tableLightHelper.visible = false;
+scene.add(tableLightHelper);
+
+
+// wall light
+const ceilingLight = new THREE.SpotLight(0xfff1a8, 2); // warm light
+ceilingLight.position.set(-2.7, 5.7, -3); // ceiling height
+
+// Target: point below where the light should hit (floor/bed)
+const targetPos = new THREE.Vector3(-2.7, 0, 0); // adjust Y for bed height
+ceilingLight.target.position.copy(targetPos);
+scene.add(ceilingLight.target);
+
+// Spotlight properties
+ceilingLight.angle = Math.PI / 12;   // cone spread ~30 degrees
+ceilingLight.penumbra = 0.6;        // soft edges
+ceilingLight.decay = 2;             // realistic falloff
+
+scene.add(ceilingLight);
+
+const ceilingLightHelper = new THREE.SpotLightHelper(ceilingLight);
+ceilingLightHelper.visible = false;
+scene.add(ceilingLightHelper);
+
 
 // console.log(sun.position);
 
@@ -289,10 +333,10 @@ scene.add(contactLightHelper);
 // scene.add( helper );
 
 
-const axesHelper = new THREE.AxesHelper( 5 );
-// axesHelper.setColors( new THREE.Color(0xff0000), new THREE.Color(0xffffff), new THREE.Color(0x0000ff) );
-scene.add( axesHelper );
-// console.log(axesHelper);;
+// const axesHelper = new THREE.AxesHelper( 5 );
+// // axesHelper.setColors( new THREE.Color(0xff0000), new THREE.Color(0xffffff), new THREE.Color(0x0000ff) );
+// scene.add( axesHelper );
+// // console.log(axesHelper);;
 
 // ambient Light
 const light = new THREE.AmbientLight( 0x404040, 3 );
@@ -382,6 +426,7 @@ function animate() {
 
 	// calculate objects intersecting the picking ray
 	const intersects = raycaster.intersectObjects( intersectObjects );
+	// const intersects = raycaster.intersectObjects(scene.children, true);
 
     if (intersects.length > 0) {
         document.body.style.cursor = 'pointer';
@@ -395,6 +440,7 @@ function animate() {
         intersectObject=  intersects[0].object.name;
 
 	}
+    // if (intersectObject) console.log("Hovered object:", intersectObject);
 
     renderer.render( scene, camera );
 
