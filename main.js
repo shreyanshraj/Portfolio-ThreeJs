@@ -43,7 +43,7 @@ const glassMaterial = new THREE.MeshPhysicalMaterial({
     roughness: 0,      
     transmission: 1,   
     transparent: true, 
-    opacity: 0.5,      
+    opacity: 0.35,      
     clearcoat: 1,
     clearcoatRoughness: 0,
 });
@@ -185,7 +185,7 @@ const loader = new GLTFLoader();
 
 loader.load( './rc_final_export.glb', function ( glb ) {
     // console.log( glb.scene.children[0].name );
-
+    
     glb.scene.traverse( ( child ) => {
         if(intersectObjectsNames.includes(child.name)){
             intersectObjects.push(child);
@@ -212,15 +212,16 @@ loader.load( './rc_final_export.glb', function ( glb ) {
     box.getSize(size);
 
     // Set camera position relative to center (slightly above & back)
-    const offset = 2; 
+    const offset = 1; 
     camera.position.set(
-        center.x + size.x * offset,
-        center.y + size.y * offset,
-        center.z + size.z * offset
+        center.x + size.x ,
+        center.y + size.y,
+        center.z + size.z 
     );
 
-    // Make camera look at model center
-    camera.lookAt(center);
+
+    camera.lookAt(-0.2125, 1.4974 , -0.3514);
+
     camera.updateProjectionMatrix();
 
     // // Update OrbitControls target
@@ -347,18 +348,16 @@ scene.add( light );
 const aspect = sizes.width / sizes.height;
 
 
-const camera = new THREE.OrthographicCamera( 
-    -aspect * 50, 
-    aspect * 50, 
-    50, 
-    -50, 
-    1, 
-    1000 );
+const camera = new THREE.PerspectiveCamera( 
+   72,              // field of view (degrees)
+    aspect,          // aspect ratio (width / height)
+    0.1,             // near clipping plane
+    200             // far clipping plane
+);
 
-camera.position.x = 8.046614195439764;
-camera.position.y = 8.471611203550893;
-camera.position.z = 9.374897474480889;
-camera.zoom = 9.8;
+camera.position.x = 5.407913724032045;
+camera.position.y = 8.243812537350799;
+camera.position.z = 6.813952297442121;
 
 camera.updateProjectionMatrix();
 
@@ -367,10 +366,22 @@ camera.updateProjectionMatrix();
 
 // OrbitControls
 const controls = new OrbitControls( camera, canvas );
+
+controls.target.set(-0.2125, 1.4974 , -0.3514);
+camera.zoom = 1.5;
+
 controls.update();
 
 controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
 controls.dampingFactor = 0.05;
+
+controls.minPolarAngle = -Math.PI / 12; // vertical rotation
+controls.maxPolarAngle = Math.PI / 3 + Math.PI / 12; 
+controls.minAzimuthAngle = -Math.PI / 20; // horizontal rotation
+controls.maxAzimuthAngle = Math.PI / 2.5 ;  
+controls.minDistance = 3;
+controls.maxDistance = 20;  
+controls.enablePan = false; // disable panning
 
 // Window Resize Handler
 function handleResize() {
@@ -451,7 +462,7 @@ function animate() {
             }
         } else {
             // Reset LinkedIn scale if hovering something else
-            if (currentHovered && animation_array.includes(currentHovered.name)) {
+            if (currentHovered && currentHovered.name.includes(animation_array)) {
                 gsap.to(currentHovered.scale, { x: 1, y: 1, z: 1, duration: 0.01, ease: "linear" });
                 currentHovered = null;
             }
@@ -466,6 +477,14 @@ function animate() {
             currentHovered = null;
         }
     }
+
+    // console.log(camera.position);
+    // console.log('====================================');
+    // console.log(controls.target);
+    // console.log('====================================');
+    // console.log('====================================');
+    // console.log('zoom',camera.zoom);
+    // console.log('====================================');
 
     renderer.render(scene, camera);
 }
