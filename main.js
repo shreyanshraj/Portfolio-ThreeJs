@@ -12,9 +12,12 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { RectAreaLightHelper } from 'three/addons/helpers/RectAreaLightHelper.js';
 
+
 const raycaster = new THREE.Raycaster();
 const pointer = new THREE.Vector2();
 const manager = new THREE.LoadingManager();
+
+
 
 // Scene Setup
 const scene = new THREE.Scene();
@@ -95,8 +98,7 @@ const modalContent = {
         content: 'this is project 1, hello world',
     },
     "Legal_Note_Pad_White_Baked": {
-        title: 'this is placeholder title',
-        content: 'this is project 1, hello world', 
+        content: 'Hey there! Looks like you’ve stumbled onto my little to-do corner 😄. <br> Right now, I’m juggling a few things—mainly this Three.js portfolio you’re checking out, making sure it not only works smoothly but also looks and feels just right. At the same time, I’m building a React Native app, experimenting with new features, and keeping my coding muscles busy. <br>Outside of the digital world, I’m training for my next marathon, planning my runs carefully, and squeezing in some hiking whenever I can to clear my head and soak up some fresh air. <br>Basically, trying to keep life balanced, productive, and a little adventurous, while having fun with all the projects I’m diving into! 🏃‍♂️', 
     },
     "github_logo_Baked": {
         title: 'GitHub Profile',
@@ -112,7 +114,7 @@ const modalContent = {
     },
     "mail_logo_Baked": {
         title: 'Email',
-        content: 'Feel free to reach out to me via email at shreyanshraj@gmail.com <br> I look forward to connecting with you!',
+        content: 'Feel free to reach out to me via email at <a href="mailto:shreyanshraj@gmail.com">shreyanshraj@gmail.com</a> <br> I look forward to connecting with you!',
         // action: () => { 
         //     showModal("mail_logo_Baked");
 
@@ -292,9 +294,9 @@ contactLightHelper.visible = false;
 scene.add(contactLightHelper);
 
 // table light-rect
-const tableLight = new THREE.RectAreaLight(0xf7ee97, 1.5, 2, 1);
-tableLight.position.set(1, 2.2, -2.2);
-tableLight.rotation.x = -Math.PI / 2;
+const tableLight = new THREE.RectAreaLight(0xffffff, 4, 2, 1);
+tableLight.position.set(1, 2.5, -2.2);
+tableLight.rotation.x = -Math.PI / 2- 0.3; // slight tilt
 scene.add(tableLight);
 const tableLightHelper = new RectAreaLightHelper(tableLight);
 tableLightHelper.visible = false;
@@ -302,18 +304,16 @@ scene.add(tableLightHelper);
 
 
 // wall light
-const ceilingLight = new THREE.SpotLight(0xfff1a8, 2); // warm light
-ceilingLight.position.set(-2.7, 5.7, -3); // ceiling height
+const ceilingLight = new THREE.SpotLight(0xfff1a8, 1); 
+ceilingLight.position.set(-2.7, 5.7, -3); 
 
-// Target: point below where the light should hit (floor/bed)
-const targetPos = new THREE.Vector3(-2.7, 0, 0); // adjust Y for bed height
+const targetPos = new THREE.Vector3(-2.7, 0, 0); 
 ceilingLight.target.position.copy(targetPos);
 scene.add(ceilingLight.target);
 
-// Spotlight properties
-ceilingLight.angle = Math.PI / 12;   // cone spread ~30 degrees
-ceilingLight.penumbra = 0.6;        // soft edges
-ceilingLight.decay = 2;             // realistic falloff
+ceilingLight.angle = Math.PI / 12;   
+ceilingLight.penumbra = 0.6;        
+ceilingLight.decay = 2;             
 
 scene.add(ceilingLight);
 
@@ -322,21 +322,23 @@ ceilingLightHelper.visible = false;
 scene.add(ceilingLightHelper);
 
 
-// console.log(sun.position);
+// Floor lamp
+const floorLamp = new THREE.SpotLight(0xfff1a8, 1.5);
+floorLamp.position.set(-0.5, 3, 2); 
 
+const floorLampTargetPos = new THREE.Vector3(-0.5, 0, 2);
+floorLamp.target.position.copy(floorLampTargetPos);
+scene.add(floorLamp.target);
 
-// const shadowHelper = new THREE.CameraHelper( sun.shadow.camera );
-// scene.add( shadowHelper );
+floorLamp.angle = Math.PI / 12;
+floorLamp.penumbra = 0.6;
+floorLamp.decay = 2;
+scene.add(floorLamp);
 
+const floorLampHelper = new THREE.SpotLightHelper(floorLamp);
+floorLampHelper.visible = false;
+scene.add(floorLampHelper);
 
-// const helper = new THREE.DirectionalLightHelper( sun, 5 );
-// scene.add( helper );
-
-
-// const axesHelper = new THREE.AxesHelper( 5 );
-// // axesHelper.setColors( new THREE.Color(0xff0000), new THREE.Color(0xffffff), new THREE.Color(0x0000ff) );
-// scene.add( axesHelper );
-// // console.log(axesHelper);;
 
 // ambient Light
 const light = new THREE.AmbientLight( 0x404040, 3 );
@@ -417,33 +419,54 @@ function handleClick() {
     
 };
 
-// Animation Loop
-function animate() {    
-    // console.log('====================================');
-    // console.log(camera);
-    // console.log('====================================');
-    raycaster.setFromCamera( pointer, camera );
 
-	// calculate objects intersecting the picking ray
-	const intersects = raycaster.intersectObjects( intersectObjects );
-	// const intersects = raycaster.intersectObjects(scene.children, true);
+// animate social buttons
+const socialButtons = ['github_logo_Baked', 'linkedin_Baked', 'mail_logo_Baked'];
+let currentHovered = null;
+
+
+
+// Animation Loop
+const animation_array = ["Text004_Baked","Text002_Baked","Text001_Baked","Text003_Baked","Legal_Note_Pad_White_Baked",
+                        "github_logo_Baked","linkedin_Baked","mail_logo_Baked"];
+function animate() { 
+    raycaster.setFromCamera(pointer, camera);
+    const intersects = raycaster.intersectObjects(intersectObjects);
 
     if (intersects.length > 0) {
+        const hovered = intersects[0].object;
         document.body.style.cursor = 'pointer';
+        intersectObject = hovered.name;
+
+        if (animation_array.includes(hovered.name)) {
+            if (currentHovered !== hovered) {
+                // Reset previous hovered object if different
+                if (currentHovered && currentHovered !== hovered) {
+                    gsap.to(currentHovered.scale, { x: 1, y: 1, z: 1, duration: 0.01, ease: "linear" });
+                }
+
+                // Animate LinkedIn logo
+                gsap.to(hovered.scale, { x: 1.2, y: 1.2, z: 1.2, duration: 0.01, ease: "linear" });
+                currentHovered = hovered;
+            }
+        } else {
+            // Reset LinkedIn scale if hovering something else
+            if (currentHovered && animation_array.includes(currentHovered.name)) {
+                gsap.to(currentHovered.scale, { x: 1, y: 1, z: 1, duration: 0.01, ease: "linear" });
+                currentHovered = null;
+            }
+        }
     } else {
         document.body.style.cursor = 'default';
-        intersectObject= "";
-    }   
+        intersectObject = "";
 
-	for ( let i = 0; i < intersects.length; i ++ ) {
-        // console.log(intersects[0].object.name);
-        intersectObject=  intersects[0].object.name;
+        // Reset LinkedIn scale when nothing hovered
+        if (currentHovered && currentHovered.name === 'linkedin_Baked') {
+            gsap.to(currentHovered.scale, { x: 1, y: 1, z: 1, duration: 0.1, ease: "linear" });
+            currentHovered = null;
+        }
+    }
 
-	}
-    // if (intersectObject) console.log("Hovered object:", intersectObject);
-
-    renderer.render( scene, camera );
-
-
+    renderer.render(scene, camera);
 }
 renderer.setAnimationLoop( animate );
