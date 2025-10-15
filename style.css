@@ -23,6 +23,10 @@
     display: none;
 }
 
+canvas {
+    touch-action: none;
+}
+
 .modal{
     z-index: 999;
     position: absolute;

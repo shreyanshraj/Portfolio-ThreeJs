@@ -410,7 +410,34 @@ function handlePointerMove( event ) {
 modalExitBtn.addEventListener('click', hideModal);
 window.addEventListener('resize', handleResize);
 window.addEventListener('pointermove', handlePointerMove);
-window.addEventListener('click', handleClick);
+// window.addEventListener('click', handleClick);
+
+// Use pointerdown only (works for mobile & desktop)
+window.addEventListener('pointerdown', handleInteraction);
+
+function handleInteraction(event) {
+    event.preventDefault();
+
+    const rect = renderer.domElement.getBoundingClientRect();
+    pointer.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+    pointer.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+
+    raycaster.setFromCamera(pointer, camera);
+    const intersects = raycaster.intersectObjects(intersectObjects, true);
+
+    if (intersects.length > 0) {
+        const clicked = intersects[0].object;
+        const content = modalContent[clicked.name];
+        if (!content) return;
+
+        if (typeof content.action === 'function') {
+            content.action();
+            return;
+        }
+
+        showModal(clicked.name);
+    }
+}
 
 function handleClick() {
     console.log(intersectObject);
