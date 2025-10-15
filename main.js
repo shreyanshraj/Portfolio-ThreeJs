@@ -180,8 +180,37 @@ const intersectObjectsNames = [
 
 const intersectObjects = [];
 
+// Loading Manager Events
+manager.onStart = function ( url, itemsLoaded, itemsTotal ) {
+    console.log( 'Started loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.' );
+};
+
+manager.onLoad = function ( ) {
+    console.log( 'Loading complete!');
+    setTimeout(() => {
+        const loadingScreen = document.getElementById('loading-screen');
+        if (loadingScreen) {
+            // Optional fade-out with GSAP
+            gsap.to(loadingScreen, { duration: 1, opacity: 0, onComplete: () => {
+                loadingScreen.style.display = 'none';
+            }});
+            
+        }
+    });
+};
+
+manager.onProgress = function ( url, itemsLoaded, itemsTotal ) {
+    console.log( 'Loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.' );
+};
+
+manager.onError = function ( url ) {
+    console.log( 'There was an error loading ' + url );
+};
+
+
+
 // Loadng Blender Model
-const loader = new GLTFLoader();
+const loader = new GLTFLoader(manager);
 
 loader.load( './rc_final_export.glb', function ( glb ) {
     // console.log( glb.scene.children[0].name );
