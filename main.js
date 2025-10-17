@@ -182,29 +182,47 @@ const intersectObjects = [];
 
 // Loading Manager Events
 manager.onStart = function ( url, itemsLoaded, itemsTotal ) {
-    console.log( 'Started loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.' );
+    // console.log( 'Started loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.' );
 };
 
+const progressBar = document.getElementById('loading-progress');
+progressBar.style.width = '0%';
+
 manager.onLoad = function ( ) {
-    console.log( 'Loading complete!');
-    setTimeout(() => {
-        const loadingScreen = document.getElementById('loading-screen');
-        if (loadingScreen) {
-            // Optional fade-out with GSAP
-            gsap.to(loadingScreen, { duration: 1, opacity: 0, onComplete: () => {
-                loadingScreen.style.display = 'none';
-            }});
+    // console.log( 'Loading complete!');
+    // setTimeout(() => {
+    //     const loadingScreen = document.getElementById('loading-screen');
+    //     if (loadingScreen) {
+    //         // Optional fade-out with GSAP
+    //         gsap.to(loadingScreen, { duration: 1, opacity: 0, onComplete: () => {
+    //             loadingScreen.style.display = 'none';
+    //         }});
             
-        }
-    });
+    //     }
+    // });
+    const loadingScreen = document.getElementById('loading-screen');
+    if (loadingScreen) {
+        gsap.to(loadingScreen, {
+            duration: 0.5,
+            opacity: 0,
+            // delay: 0.2, // Optional: small pause to let the bar reach 100%
+            onComplete: () => {
+                loadingScreen.style.display = 'none';
+            }
+        });
+    }
 };
 
 manager.onProgress = function ( url, itemsLoaded, itemsTotal ) {
-    console.log( 'Loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.' );
+    // console.log( 'Loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.' );
+
+     const progress = (itemsLoaded / itemsTotal) * 100;
+    // console.log(progress);
+    gsap.to('#loading-progress', { width: progress + '%', duration: 0.2 });
 };
 
 manager.onError = function ( url ) {
-    console.log( 'There was an error loading ' + url );
+    // console.log( 'There was an error loading ' + url );
 };
 
 
@@ -262,7 +280,6 @@ loader.load( './rc_final_export.glb', function ( glb ) {
   console.error( error );
 
 } );
-
 
 
 // sun light
@@ -390,6 +407,65 @@ camera.position.z = 6.813952297442121;
 
 camera.updateProjectionMatrix();
 
+
+// Background Music
+// const listener = new THREE.AudioListener();
+// camera.add(listener);
+
+// const sound = new THREE.Audio(listener);
+// const audioLoader = new THREE.AudioLoader();
+
+// let isMuted = false;
+// let isAudioLoaded = false;
+
+// audioLoader.load('music.ogg', function (buffer) {
+//   sound.setBuffer(buffer);
+//   sound.setLoop(true);
+//   sound.setVolume(0.25);
+//   isAudioLoaded = true;
+// });
+
+// // Resume & play after first user gesture
+// function startAudio() {
+//   if (listener.context.state === 'suspended') {
+//     listener.context.resume();
+//   }
+
+//   if (isAudioLoaded && !sound.isPlaying && !isMuted) {
+//     sound.play();
+//   }
+
+//   window.removeEventListener('click', startAudio);
+//   window.removeEventListener('touchstart', startAudio);
+// }
+
+// document.addEventListener('click', startAudio, { once: true });
+// document.addEventListener('touchstart', startAudio, { once: true });
+
+// // Sound toggle button
+// const soundToggle = document.getElementById('sound-toggle');
+// window.addEventListener('DOMContentLoaded', () => {
+//   const soundToggle = document.getElementById('sound-toggle');
+
+//   soundToggle.addEventListener('click', async () => {
+//     if (listener.context.state === 'suspended') {
+//       await listener.context.resume();
+//     }
+
+//     if (!isAudioLoaded) return;
+
+//     if (isMuted) {
+//       sound.setVolume(0.25);
+//       sound.play();
+//       soundToggle.textContent = '🔊';
+//       isMuted = false;
+//     } else {
+//       sound.setVolume(0);
+//       soundToggle.textContent = '🔇';
+//       isMuted = true;
+//     }
+//   });
+// });
 
 
 
