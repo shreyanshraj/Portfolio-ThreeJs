@@ -11,6 +11,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap"
     rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
   <link rel="stylesheet" href="./style.css">
 </head>
 
@@ -19,9 +20,40 @@
     <canvas id="experience-canvas"></canvas>
   </div>
 
-  <!-- <button id="sound-toggle" class="sound-btn">🔊</button> -->
+  <div class="welcome">
+    <div class="msg">
+      <h1>Exploring Code, Design, and 3D Magic</h1>
+      <p>Hey there! 👋 <br>
+        Welcome to my portfolio! This is an interactive 3D space where you can click, move around, and play with the
+        objects in the scene — feel free to explore and have fun. <br>
+        It’s still a work in progress , so you might spot some changes or new features
+        the next <br>
+        time you visit. I’m learning and experimenting as I go, and your feedback means a lot. <br>
+        If you have any suggestions or just want to connect, I’d love to hear from you — feel free to reach out on
+        LinkedIn!</p>
+    </div>
+    <button class="jh-btn" aria-label="Get Code">
+      <span class="text">Enter</span>
+      <span class="container" aria-hidden="true">
+        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6.75 17.25L1.5 12L6.75 6.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+            stroke-linejoin="round" />
+          <path d="M12 4 L12 20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+            stroke-linejoin="round" />
+          <path d="M17.25 6.75L22.5 12L17.25 17.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+            stroke-linejoin="round" />
+        </svg>
 
-  <!-- need to update loading screen style -->
+      </span>
+    </button>
+  </div>
+
+  <button id="music">
+    <i class="fas fa-play fa-lg"></i>
+    <i class="fas fa-pause fa-lg hidden"></i>
+  </button>
+
+
   <div id="loading-screen"
     style="position: fixed; top:0; left:0; width:100%; height:100%; background:#111; display:flex; justify-content:center; align-items:center; flex-direction:column; z-index:9999;">
     <div id="loading-text" style="color:white; margin-bottom:10px;">Loading...</div>

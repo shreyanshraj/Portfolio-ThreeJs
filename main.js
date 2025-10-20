@@ -85,7 +85,7 @@ const modalContent = {
             showModal("Text003_Baked");
 
             setTimeout(() => {
-                window.open('./SHREYANSH RAJ_Software Developer.pdf','_blank').focus();
+                window.open('./Shreyansh Raj_Portfolio.pdf','_blank').focus();
             }, 1000);
         }
     },
@@ -189,17 +189,6 @@ const progressBar = document.getElementById('loading-progress');
 progressBar.style.width = '0%';
 
 manager.onLoad = function ( ) {
-    // console.log( 'Loading complete!');
-    // setTimeout(() => {
-    //     const loadingScreen = document.getElementById('loading-screen');
-    //     if (loadingScreen) {
-    //         // Optional fade-out with GSAP
-    //         gsap.to(loadingScreen, { duration: 1, opacity: 0, onComplete: () => {
-    //             loadingScreen.style.display = 'none';
-    //         }});
-            
-    //     }
-    // });
     const loadingScreen = document.getElementById('loading-screen');
     if (loadingScreen) {
         gsap.to(loadingScreen, {
@@ -408,65 +397,74 @@ camera.position.z = 6.813952297442121;
 camera.updateProjectionMatrix();
 
 
-// Background Music
-// const listener = new THREE.AudioListener();
-// camera.add(listener);
+// Music Setup
+const listener = new THREE.AudioListener();
+camera.add( listener );
 
-// const sound = new THREE.Audio(listener);
-// const audioLoader = new THREE.AudioLoader();
+const sound = new THREE.Audio( listener );
 
-// let isMuted = false;
-// let isAudioLoaded = false;
+const audioLoader = new THREE.AudioLoader();
+audioLoader.load( 'music.ogg', function( buffer ) {
+    sound.setBuffer( buffer );
+    sound.setLoop(true);
+    sound.setVolume(0.25);
+} );
 
-// audioLoader.load('music.ogg', function (buffer) {
-//   sound.setBuffer(buffer);
-//   sound.setLoop(true);
-//   sound.setVolume(0.25);
-//   isAudioLoaded = true;
-// });
+const musicButton = document.getElementById('music');
+const playIcon = musicButton.querySelector('.fa-play');
+const pauseIcon = musicButton.querySelector('.fa-pause');
 
-// // Resume & play after first user gesture
-// function startAudio() {
-//   if (listener.context.state === 'suspended') {
-//     listener.context.resume();
-//   }
+let isPlaying = false; // track state
 
-//   if (isAudioLoaded && !sound.isPlaying && !isMuted) {
-//     sound.play();
-//   }
+function toggleMusic() {
+  isPlaying = !isPlaying;
+  playIcon.classList.toggle('hidden');
+  pauseIcon.classList.toggle('hidden');
 
-//   window.removeEventListener('click', startAudio);
-//   window.removeEventListener('touchstart', startAudio);
-// }
+  // Optional: Hook to your THREE.Audio object
+  if (isPlaying) {
+  sound.play();
+} else {
+  fadeOutSound(sound); 
+}
 
-// document.addEventListener('click', startAudio, { once: true });
-// document.addEventListener('touchstart', startAudio, { once: true });
+}
 
-// // Sound toggle button
-// const soundToggle = document.getElementById('sound-toggle');
-// window.addEventListener('DOMContentLoaded', () => {
-//   const soundToggle = document.getElementById('sound-toggle');
+function fadeOutSound(sound, duration = 500) {
+  const startVolume = sound.getVolume();
+  const startTime = performance.now();
 
-//   soundToggle.addEventListener('click', async () => {
-//     if (listener.context.state === 'suspended') {
-//       await listener.context.resume();
-//     }
+  function fade() {
+    const elapsed = performance.now() - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    sound.setVolume(startVolume * (1 - progress));
 
-//     if (!isAudioLoaded) return;
+    if (progress < 1) {
+      requestAnimationFrame(fade);
+    } else {
+      sound.pause(); // fully stop after fade
+      sound.setVolume(startVolume); // reset volume for next play
+    }
+  }
+  fade();
+}
 
-//     if (isMuted) {
-//       sound.setVolume(0.25);
-//       sound.play();
-//       soundToggle.textContent = '🔊';
-//       isMuted = false;
-//     } else {
-//       sound.setVolume(0);
-//       soundToggle.textContent = '🔇';
-//       isMuted = true;
-//     }
-//   });
-// });
+const btn = document.querySelector('.jh-btn');
 
+btn.addEventListener('click', (e) => {
+e.preventDefault();
+// show model portfolio section after button click
+// document.getElementById('portfolio')?.scrollIntoView({ behavior: 'smooth' });
+console.log('Button clicked!');
+});
+
+
+// Handle both desktop and mobile taps
+musicButton.addEventListener('click', toggleMusic);
+musicButton.addEventListener('touchstart', (e) => {
+  e.preventDefault(); // prevents double-trigger on some devices
+  toggleMusic();
+}); 
 
 
 // OrbitControls
@@ -480,13 +478,22 @@ controls.update();
 controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
 controls.dampingFactor = 0.05;
 
-controls.minPolarAngle = -Math.PI / 12; // vertical rotation
+controls.minPolarAngle = -Math.PI / 60; // vertical rotation
 controls.maxPolarAngle = Math.PI / 3 + Math.PI / 12; 
 controls.minAzimuthAngle = -Math.PI / 20; // horizontal rotation
 controls.maxAzimuthAngle = Math.PI / 2.5 ;  
 controls.minDistance = 3;
 controls.maxDistance = 20;  
-controls.enablePan = false; // disable panning
+// controls.enablePan = false; // disable panning
+
+const panLimits = {
+    minX: 0,
+    maxX: 3,
+    minY: 0.5,
+    maxY: 3,
+    minZ: -3,
+    maxZ: 3
+};
 
 // Window Resize Handler
 function handleResize() {
@@ -544,25 +551,6 @@ function handleInteraction(event) {
     }
 }
 
-function handleClick() {
-    console.log(intersectObject);
-    if (intersectObject !== "") {
-
-        const content = modalContent[intersectObject];
-
-        if (!content) return;
-        if (typeof content.action === 'function') {
-            content.action();
-            return;
-        }
-
-        showModal(intersectObject);
-    }
-    
-    
-};
-
-
 // animate social buttons
 const socialButtons = ['github_logo_Baked', 'linkedin_Baked', 'mail_logo_Baked'];
 let currentHovered = null;
@@ -588,12 +576,12 @@ function animate() {
                     gsap.to(currentHovered.scale, { x: 1, y: 1, z: 1, duration: 0.01, ease: "linear" });
                 }
 
-                // Animate LinkedIn logo
+                // Animate logo scale up
                 gsap.to(hovered.scale, { x: 1.2, y: 1.2, z: 1.2, duration: 0.01, ease: "linear" });
                 currentHovered = hovered;
             }
         } else {
-            // Reset LinkedIn scale if hovering something else
+            // Reset logo scale if hovering something else
             if (currentHovered && currentHovered.name.includes(animation_array)) {
                 gsap.to(currentHovered.scale, { x: 1, y: 1, z: 1, duration: 0.01, ease: "linear" });
                 currentHovered = null;
@@ -603,20 +591,20 @@ function animate() {
         document.body.style.cursor = 'default';
         intersectObject = "";
 
-        // Reset LinkedIn scale when nothing hovered
+        // Reset Logo scale when nothing hovered
         if (currentHovered && currentHovered.name === 'linkedin_Baked') {
             gsap.to(currentHovered.scale, { x: 1, y: 1, z: 1, duration: 0.1, ease: "linear" });
             currentHovered = null;
         }
     }
+    // Clamp controls target within pan limits
+    controls.target.x = THREE.MathUtils.clamp(controls.target.x, panLimits.minX, panLimits.maxX);
+    controls.target.y = THREE.MathUtils.clamp(controls.target.y, panLimits.minY, panLimits.maxY);
+    controls.target.z = THREE.MathUtils.clamp(controls.target.z, panLimits.minZ, panLimits.maxZ);
 
-    // console.log(camera.position);
-    // console.log('====================================');
-    // console.log(controls.target);
-    // console.log('====================================');
-    // console.log('====================================');
-    // console.log('zoom',camera.zoom);
-    // console.log('====================================');
+    // Update camera based on clamped target
+    controls.update();
+
 
     renderer.render(scene, camera);
 }

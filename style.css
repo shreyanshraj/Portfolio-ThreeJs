@@ -28,7 +28,7 @@ canvas {
 }
 
 .modal{
-    z-index: 999;
+    z-index: 200;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -49,4 +49,218 @@ canvas {
     justify-content: space-between;
     align-items: center;
     padding-bottom: 10px;
+}
+
+/* Welcome Section */
+
+.welcome {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 102vw;
+    height: 102vh;
+    background: red;
+    justify-content: center;
+    z-index: 5000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+
+}
+
+
+/* Button */
+.jh-btn,
+.jh-btn:before,
+.jh-btn:after {
+    box-sizing: border-box;
+}
+
+:root {
+    --jh-accent: 280;
+    --jh-speed: 0.25;
+    --jh-transition: calc(var(--jh-speed) * 1s);
+    --jh-timing: ease-out;
+}
+
+/* minimal page-safe defaults if not defined elsewhere */
+.jh-btn {
+    --accent: var(--jh-accent);
+    --speed: var(--jh-speed);
+    --transition: var(--jh-transition);
+    --timing: var(--jh-timing);
+
+    border-radius: 100px;
+    padding: 1.5rem 5rem;
+    cursor: pointer;
+    position: relative;
+    font-size: 2rem;
+    font-weight: 200;
+    border: 0;
+    color: hsl(0 0% 40%);
+    background: hsl(var(--accent) 80% 98%);
+    box-shadow: 0 2px 6px hsl(0 0% 0% / 0.25);
+    outline-color: hsl(var(--accent) 80% 40%);
+    display: inline-grid;
+    place-items: center;
+    overflow: visible;
+}
+
+/* make sure this scoped :before does not conflict with other styles */
+.jh-btn::before {
+    pointer-events: none;
+    content: "";
+    position: absolute;
+    inset: -8px;
+    z-index: -1;
+    box-shadow: 0 1px hsl(0 0% 100% / 1) inset;
+    background:
+        radial-gradient(circle at center, hsl(var(--accent) 80% 60%) 50%, transparent 50%) 4px 4px / 6px 6px no-repeat,
+        radial-gradient(circle at center, hsl(var(--accent) 80% 60%) 50%, transparent 50%) 4px calc(100% - 4px) / 6px 6px no-repeat,
+        radial-gradient(circle at center, hsl(var(--accent) 80% 60%) 50%, transparent 50%) calc(100% - 4px) 4px / 6px 6px no-repeat,
+        radial-gradient(circle at center, hsl(var(--accent) 80% 60%) 50%, transparent 50%) calc(100% - 4px) calc(100% - 4px) / 6px 6px no-repeat,
+        hsl(var(--accent) 80% 80%);
+    border-radius: 6px;
+}
+
+.jh-btn svg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    width: 26px;
+    overflow: visible !important;
+    pointer-events: none;
+}
+
+.jh-btn svg path {
+    stroke: currentColor;
+    /* use the button text color */
+    stroke-width: 1.5;
+    /* match the pen */
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+}
+
+/* arrangement of the three paths */
+.jh-btn svg path:not(:nth-of-type(2)) {
+    --offset: 30%;
+    --distance: 50cqi;
+    translate: calc((var(--offset) * var(--coefficient)) + (var(--intent, 0) * (var(--distance) * var(--coefficient)))) 0;
+    scale: calc(1 + var(--intent));
+}
+
+.jh-btn svg path:nth-of-type(2) {
+    rotate: calc(15deg + (var(--intent, 0) * 75deg));
+    scale: 1 calc(1 + var(--intent, 0));
+    translate: 0 calc(var(--intent, 0) * 30cqh);
+    stroke-width: calc(4 - (var(--intent, 0) * 2));
+    opacity: calc(1 - (var(--intent, 0) * 0.8));
+    transition: stroke-width var(--transition), rotate var(--transition), translate var(--transition), scale var(--transition), opacity var(--transition);
+    transition-timing-function: var(--timing);
+}
+
+.jh-btn svg path:nth-of-type(1) {
+    --coefficient: -1;
+}
+
+.jh-btn svg path:nth-of-type(3) {
+    --coefficient: 1;
+}
+
+.jh-btn .container {
+    pointer-events: none;
+    overflow: hidden;
+    position: absolute;
+    inset: 0;
+    container-type: size;
+    /* container query usage on supporting browsers */
+    border-radius: 100px;
+}
+
+.jh-btn .text {
+    scale: var(--intent, 0);
+    opacity: var(--intent, 0);
+    transform-origin: 50% 100%;
+    display: inline-block;
+    transition: scale var(--transition), opacity var(--transition);
+    transition-timing-function: var(--timing);
+    position: relative;
+    z-index: 1;
+}
+
+/* Hover / focus intent */
+.jh-btn:is(:hover, :focus-visible) {
+    --intent: 1;
+}
+
+/* make it small-screen friendly if needed */
+@media (max-width: 600px) {
+    .jh-btn {
+        padding: 0.45rem 0.9rem;
+    }
+
+    .jh-btn svg {
+        width: 20px;
+    }
+
+    .jh-btn .text {
+        font-size: 0.85rem;
+    }
+}
+
+
+#music {
+    position: fixed;
+    top: 2em;
+    right: 2em;
+    z-index: 4000;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    width: 64px;
+    height: 64px;
+    background: rgba(239, 238, 238, 0.9);
+    border: none;
+    border-radius: 50%;
+    transition: transform 0.2s ease, background 0.3s ease;
+    backdrop-filter: blur(6px);
+}
+
+#music:active {
+    transform: scale(0.9);
+}
+
+
+.welcome>.msg {
+    width: 70%;
+    height: fit-content;
+    font-size: 1.3em;
+}
+
+#music i {
+    font-size: 1.8rem;
+    color: #555;
+    pointer-events: none;
+    /* ensures icon doesn't block tap */
+}
+
+.hidden {
+    display: none;
+}
+
+/* For very small screens */
+@media (max-width: 600px) {
+    #music {
+        width: 56px;
+        height: 56px;
+        top: 16px;
+        right: 16px;
+    }
+
+    #music i {
+        font-size: 1.5rem;
+    }
 }
