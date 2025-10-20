@@ -1,12 +1,3 @@
-// TO DO tasks
-// 1. Customize project details and ref links in modalContent object--done
-// 2. Add animations to modal (GSAP?)
-// 3. Improve mobile responsiveness
-// 4. Optimize 3D model for better performance
-// 5. Add loading screen while model loads
-
-
-
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
@@ -27,7 +18,25 @@ const sizes = {
     height: window.innerHeight
 };
 
+const wel_pg= document.querySelector('.jh-btn');
+const welcomeDiv = document.querySelector('.welcome');
 
+wel_pg.addEventListener('click', () => {
+    gsap.to(welcomeDiv, {
+        duration: 0.7, 
+        opacity: 0,
+        ease: "easeInOut",
+        onComplete: () => {
+            welcomeDiv.style.display = 'none';
+        }
+    });
+    if (!sound.isPlaying) {
+        sound.play();
+    }
+    playIcon.classList.add('hidden');
+    pauseIcon.classList.remove('hidden');
+
+});
 
 const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
 renderer.setSize( sizes.width, sizes.height );
@@ -181,9 +190,6 @@ const intersectObjectsNames = [
 const intersectObjects = [];
 
 // Loading Manager Events
-manager.onStart = function ( url, itemsLoaded, itemsTotal ) {
-    // console.log( 'Started loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.' );
-};
 
 const progressBar = document.getElementById('loading-progress');
 progressBar.style.width = '0%';
@@ -210,9 +216,6 @@ manager.onProgress = function ( url, itemsLoaded, itemsTotal ) {
     gsap.to('#loading-progress', { width: progress + '%', duration: 0.2 });
 };
 
-manager.onError = function ( url ) {
-    // console.log( 'There was an error loading ' + url );
-};
 
 
 
@@ -384,10 +387,10 @@ const aspect = sizes.width / sizes.height;
 
 
 const camera = new THREE.PerspectiveCamera( 
-   72,              // field of view (degrees)
-    aspect,          // aspect ratio (width / height)
-    0.1,             // near clipping plane
-    200             // far clipping plane
+   72,              
+    aspect,          
+    0.1,             
+    200             
 );
 
 camera.position.x = 5.407913724032045;
@@ -421,7 +424,6 @@ function toggleMusic() {
   playIcon.classList.toggle('hidden');
   pauseIcon.classList.toggle('hidden');
 
-  // Optional: Hook to your THREE.Audio object
   if (isPlaying) {
   sound.play();
 } else {
@@ -450,13 +452,6 @@ function fadeOutSound(sound, duration = 500) {
 }
 
 const btn = document.querySelector('.jh-btn');
-
-btn.addEventListener('click', (e) => {
-e.preventDefault();
-// show model portfolio section after button click
-// document.getElementById('portfolio')?.scrollIntoView({ behavior: 'smooth' });
-console.log('Button clicked!');
-});
 
 
 // Handle both desktop and mobile taps
