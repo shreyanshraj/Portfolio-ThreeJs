@@ -59,7 +59,7 @@ canvas {
     left: 0;
     width: 102vw;
     height: 102vh;
-    background: red;
+    background: #EBF5EE;
     justify-content: center;
     z-index: 5000;
     display: flex;
@@ -92,10 +92,10 @@ canvas {
     --timing: var(--jh-timing);
 
     border-radius: 100px;
-    padding: 1.5rem 5rem;
+    padding: .5rem 3rem;
     cursor: pointer;
     position: relative;
-    font-size: 2rem;
+    font-size: 2em;
     font-weight: 200;
     border: 0;
     color: hsl(0 0% 40%);
@@ -237,7 +237,22 @@ canvas {
 .welcome>.msg {
     width: 70%;
     height: fit-content;
-    font-size: 1.3em;
+}
+
+#wel_title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: #333;
+    text-align: center;
+}
+
+#wel_text {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: #3a3a3a;
+    text-align: left;
+    margin-bottom: 2rem;
 }
 
 #music i {
