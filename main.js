@@ -21,6 +21,20 @@ const sizes = {
 const wel_pg= document.querySelector('.jh-btn');
 const welcomeDiv = document.querySelector('.welcome');
 
+/* --- Fade-in animation for Enter button --- */
+if (wel_pg) {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        wel_pg.classList.add('visible');
+        observer.unobserve(wel_pg);
+      }
+    });
+  }, { threshold: 0.2 });
+
+  observer.observe(wel_pg);
+}
+
 wel_pg.addEventListener('click', () => {
     gsap.to(welcomeDiv, {
         duration: 0.7, 
