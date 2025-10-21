@@ -80,10 +80,10 @@ const modalContent = {
     // },
 
     // Projects- need to update (open new windows showing few projects details or maybe redirect to github page)
-    "Text001_Baked":{
-        title: 'View Projects',
-        content: 'This is project page',
-    },
+    // "Text001_Baked":{
+    //     title: 'View Projects',
+    //     content: 'This is project page',
+    // },
 
     // Resume
     "Text003_Baked":{
@@ -98,16 +98,16 @@ const modalContent = {
             }, 1000);
         }
     },
-    "wallpaper_r001":{
-        title: 'this is placeholder title',
-        content: 'this is project 1, hello world',
-    },
-    "wallpaper_l001":{
-        title: 'this is placeholder title',
-        content: 'this is project 1, hello world',
-    },
+    // "wallpaper_r001":{
+    //     title: 'this is placeholder title',
+    //     content: 'this is project 1, hello world',
+    // },
+    // "wallpaper_l001":{
+    //     title: 'this is placeholder title',
+    //     content: 'this is project 1, hello world',
+    // },
     "Legal_Note_Pad_White_Baked": {
-        content: 'Hey there! Looks like you’ve stumbled onto my little to-do corner 😄. <br> Right now, I’m juggling a few things—mainly this Three.js portfolio you’re checking out, making sure it not only works smoothly but also looks and feels just right. At the same time, I’m building a React Native app, experimenting with new features, and keeping my coding muscles busy. <br>Outside of the digital world, I’m training for my next marathon, planning my runs carefully, and squeezing in some hiking whenever I can to clear my head and soak up some fresh air. <br>Basically, trying to keep life balanced, productive, and a little adventurous, while having fun with all the projects I’m diving into! 🏃‍♂️', 
+        content: 'Hey there! Looks like you’ve stumbled onto my little to-do corner 😄. <br> Right now, I’m juggling a few things—mainly this Three.js portfolio you’re checking out, making sure it not only works smoothly but also looks and feels just right. At the same time, I’m building a React Native app, experimenting with new features, and keeping my coding muscles busy. <br>Outside of the digital world, I’m training for my next marathon and squeezing in some hiking whenever I can to clear my head and soak up some fresh air. <br>Basically, trying to keep life balanced, productive, and a little adventurous, while having fun with all the projects I’m diving into! 🏃‍♂️', 
     },
     "github_logo_Baked": {
         title: 'GitHub Profile',
