@@ -103,11 +103,22 @@ const modalContent = {
     "Text003_Baked": {
     title: 'View My Resume',
     content: `
-        <iframe src="./Shreyansh Raj_Portfolio.pdf" 
-                width="100%" height="500px"
-                style="border:none;"></iframe>
-        <br><a href="./Shreyansh Raj_Portfolio.pdf" download>Download PDF</a>
-    `,
+    <div style="position: relative; width: 100%; height: 80vh;">
+      <iframe 
+        src="./Shreyansh Raj_Portfolio.pdf#view=fitH" 
+        style="
+          width: 100%;
+          height: 100%;
+          border: none;
+          overflow: auto;
+        ">
+      </iframe>
+    </div>
+    <br>
+    <a href="./Shreyansh Raj_Portfolio.pdf" download style="display:block; text-align:center; margin-top:10px;">
+      Download PDF
+    </a>
+  `,
     action: () => { showModal("Text003_Baked"); }
     },
 
