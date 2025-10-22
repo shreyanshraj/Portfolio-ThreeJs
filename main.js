@@ -94,24 +94,24 @@ const modalContent = {
     // },
 
     // Projects- need to update (open new windows showing few projects details or maybe redirect to github page)
-    // "Text001_Baked":{
-    //     title: 'View Projects',
-    //     content: 'This is project page',
-    // },
+    "Text001_Baked":{
+        title: 'View Projects',
+        content: 'This is project page',
+    },
 
     // Resume
-    "Text003_Baked":{
-        title: 'View my Resume',
-        content: 'Opening Resume PDF...',
-
-        action: () => { 
-            showModal("Text003_Baked");
-
-            setTimeout(() => {
-                window.open('./Shreyansh Raj_Portfolio.pdf','_blank').focus();
-            }, 1000);
-        }
+    "Text003_Baked": {
+    title: 'View My Resume',
+    content: `
+        <iframe src="./Shreyansh Raj_Portfolio.pdf" 
+                width="100%" height="500px"
+                style="border:none;"></iframe>
+        <br><a href="./Shreyansh Raj_Portfolio.pdf" download>Download PDF</a>
+    `,
+    action: () => { showModal("Text003_Baked"); }
     },
+
+    
     // "wallpaper_r001":{
     //     title: 'this is placeholder title',
     //     content: 'this is project 1, hello world',
