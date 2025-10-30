@@ -329,10 +329,6 @@ loader.load( './rc_final_export.glb', function ( glb ) {
 
     camera.updateProjectionMatrix();
 
-    // // Update OrbitControls target
-    // controls.target.copy(center);
-    // controls.update();
-
 }, undefined, function ( error ) {
 
   console.error( error );
