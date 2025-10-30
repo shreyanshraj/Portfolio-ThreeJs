@@ -1,3 +1,8 @@
+html,
+body {
+    overflow-x: hidden;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -204,16 +209,6 @@ canvas {
     transform: translateY(-2px);
 }
 
-@media (max-width: 768px) {
-    .projects {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .card {
-        width: 90%;
-    }
-}
 
 .modal-content-wrapper {
     display: flex;
@@ -315,6 +310,28 @@ canvas {
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
         
+    }
+    #music {
+        width: 56px;
+        height: 56px;
+        top: 16px;
+        right: 16px;
+    }
+
+    #music i {
+        font-size: 1.5rem;
+    }
+
+    .jh-btn {
+        margin-bottom: 5vh;
+    }
+    .projects {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .card {
+        width: 90%;
     }
 }
 
@@ -421,20 +438,6 @@ canvas {
 
 .hidden {
     display: none;
-}
-
-/* For very small screens */
-@media (max-width: 600px) {
-    #music {
-        width: 56px;
-        height: 56px;
-        top: 16px;
-        right: 16px;
-    }
-
-    #music i {
-        font-size: 1.5rem;
-    }
 }
 
 
