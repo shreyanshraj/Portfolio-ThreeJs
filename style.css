@@ -256,8 +256,8 @@ canvas {
     position: fixed;
     top: 0;
     left: 0;
-    width: 102vw;
-    height: 102vh;
+    width: 100vw;
+    height: 100vh;
     background: #EBF5EE;
     justify-content: center;
     z-index: 5000;
@@ -323,6 +323,7 @@ canvas {
     border-radius: 100px;
     padding: 0.5rem 3rem;
     cursor: pointer;
+    margin-bottom: 3vh;
     font-size: 2em;
     font-weight: 200;
     border: none;
