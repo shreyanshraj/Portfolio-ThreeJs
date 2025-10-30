@@ -28,7 +28,7 @@ canvas {
 }
 
 .modal{
-     z-index: 200;
+    z-index: 200;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -50,10 +50,202 @@ canvas {
 }
 
 .modal-header{
-    flex-shrink: 0;
-    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+    background-color: #c5d8eb;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
 }
+
+.modal-header-buttons {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    /* space between visit and exit buttons */
+}
+
+
+/* Projects Section */
+.projects-container {
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #267a9e;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    z-index: 200;
+}
+
+.projects-container.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.projects-container h1 {
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+    color: #000;
+}
+
+.projects {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.projects-header {
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.projects-header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-top: 1em;
+}
+
+.projects-exit-btn {
+    background: #f2bc855e;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    font-size: 1.2rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.projects-exit-btn:hover {
+    background: #f2bc8592;
+    transform: scale(1.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.projects-header .title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #ffffff;
+    font-family: 'BBH Sans Bogle', sans-serif;
+}
+
+.card {
+    width: 260px;
+    background-color: #f1e9db;
+    border-radius: 10px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    text-align: left;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    cursor: pointer;
+}
+
+
+.card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.25);
+    background-color: #e0d8c5;
+}
+
+.card .title {
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    color: #222;
+    transition: color 0.3s ease;
+}
+
+.card:hover .title {
+    color: #005f7f;
+}
+
+.card .content {
+    font-size: 0.95rem;
+    margin-bottom: 15px;
+    line-height: 1.4;
+    transition: color 0.3s ease;
+    flex: 1;
+}
+
+.card:hover .content {
+    color: #333;
+}
+
+.visit-btn {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.9rem;
+    border: 1px solid black;
+    color: black;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+}
+
+.visit-btn:hover {
+    background-color: #ccc;
+    color: #000;
+    transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+    .projects {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .card {
+        width: 90%;
+    }
+}
+
+.modal-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.modal-content {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.modal-visit-btn {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #52abbf;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.modal-visit-btn:hover {
+    background-color: #3f92a5;
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+
 
 /* Welcome Section */
 
@@ -78,10 +270,31 @@ canvas {
     border: none;
 }
 
+.modal-exit-button {
+    background-color: #f2bc85;
+    color: #222;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.modal-exit-button:hover {
+    background-color: #e1a869;
+    transform: scale(1.08);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
 .modal-proj-desc {
     flex: 1;
     overflow-y: auto;
     padding: 1rem;
+    font-size: 1.3rem;
+    color: black;
+    font-family: "Ubuntu", sans-serif;
+    text-align: justify;
 }
 
 @media (max-width: 600px) {
@@ -93,148 +306,63 @@ canvas {
     .modal-proj-desc {
         padding: 0.8rem;
     }
+
+    .modal-content {
+        overflow-y: auto;
+    }
 }
 
-/* Button */
-.jh-btn,
-.jh-btn:before,
-.jh-btn:after {
-    box-sizing: border-box;
-}
-
-:root {
-    --jh-accent: 280;
-    --jh-speed: 0.25;
-    --jh-transition: calc(var(--jh-speed) * 1s);
-    --jh-timing: ease-out;
-}
-
-/* minimal page-safe defaults if not defined elsewhere */
+/* Enter Button */
 .jh-btn {
-    --accent: var(--jh-accent);
-    --speed: var(--jh-speed);
-    --transition: var(--jh-transition);
-    --timing: var(--jh-timing);
-
     border-radius: 100px;
-    padding: .5rem 3rem;
+    padding: 0.5rem 3rem;
     cursor: pointer;
-    position: relative;
     font-size: 2em;
     font-weight: 200;
-    border: 0;
-    color: hsl(0 0% 40%);
-    background: hsl(var(--accent) 80% 98%);
-    box-shadow: 0 2px 6px hsl(0 0% 0% / 0.25);
-    outline-color: hsl(var(--accent) 80% 40%);
-    display: inline-grid;
-    place-items: center;
-    overflow: visible;
-    margin-bottom: 2em;
-}
-
-/* make sure this scoped :before does not conflict with other styles */
-.jh-btn::before {
-    pointer-events: none;
-    content: "";
-    position: absolute;
-    inset: -8px;
-    z-index: -1;
-    box-shadow: 0 1px hsl(0 0% 100% / 1) inset;
-    background:
-        radial-gradient(circle at center, hsl(var(--accent) 80% 60%) 50%, transparent 50%) 4px 4px / 6px 6px no-repeat,
-        radial-gradient(circle at center, hsl(var(--accent) 80% 60%) 50%, transparent 50%) 4px calc(100% - 4px) / 6px 6px no-repeat,
-        radial-gradient(circle at center, hsl(var(--accent) 80% 60%) 50%, transparent 50%) calc(100% - 4px) 4px / 6px 6px no-repeat,
-        radial-gradient(circle at center, hsl(var(--accent) 80% 60%) 50%, transparent 50%) calc(100% - 4px) calc(100% - 4px) / 6px 6px no-repeat,
-        hsl(var(--accent) 80% 80%);
-    border-radius: 6px;
-}
-
-.jh-btn svg {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    translate: -50% -50%;
-    width: 26px;
-    overflow: visible !important;
-    pointer-events: none;
-}
-
-.jh-btn svg path {
-    stroke: currentColor;
-    /* use the button text color */
-    stroke-width: 1.5;
-    /* match the pen */
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    fill: none;
-}
-
-/* arrangement of the three paths */
-.jh-btn svg path:not(:nth-of-type(2)) {
-    --offset: 30%;
-    --distance: 50cqi;
-    translate: calc((var(--offset) * var(--coefficient)) + (var(--intent, 0) * (var(--distance) * var(--coefficient)))) 0;
-    scale: calc(1 + var(--intent));
-}
-
-.jh-btn svg path:nth-of-type(2) {
-    rotate: calc(15deg + (var(--intent, 0) * 75deg));
-    scale: 1 calc(1 + var(--intent, 0));
-    translate: 0 calc(var(--intent, 0) * 30cqh);
-    stroke-width: calc(4 - (var(--intent, 0) * 2));
-    opacity: calc(1 - (var(--intent, 0) * 0.8));
-    transition: stroke-width var(--transition), rotate var(--transition), translate var(--transition), scale var(--transition), opacity var(--transition);
-    transition-timing-function: var(--timing);
-}
-
-.jh-btn svg path:nth-of-type(1) {
-    --coefficient: -1;
-}
-
-.jh-btn svg path:nth-of-type(3) {
-    --coefficient: 1;
-}
-
-.jh-btn .container {
-    pointer-events: none;
+    border: none;
+    color: #333;
+    background-color: #cce7f0;
+    /* light accent background */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+    display: inline-block;
+    text-align: center;
     overflow: hidden;
-    position: absolute;
-    inset: 0;
-    container-type: size;
-    /* container query usage on supporting browsers */
-    border-radius: 100px;
+    transition: background-color 0.3s ease;
+}
+
+.jh-btn:hover {
+    background-color: #b0d9e5;
 }
 
 .jh-btn .text {
-    scale: var(--intent, 0);
-    opacity: var(--intent, 0);
-    transform-origin: 50% 100%;
     display: inline-block;
-    transition: scale var(--transition), opacity var(--transition);
-    transition-timing-function: var(--timing);
     position: relative;
-    z-index: 1;
+    transition: transform 0.3s ease, color 0.3s ease;
+    font-family: "BBH Sans Bogle", sans-serif;
 }
 
-
-.jh-btn:is(:hover, :focus-visible) {
-    --intent: 1;
+.jh-btn .text::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    width: 100%;    
+    height: 3px;
+    background-color: #005f7f;
+    transform: scaleX(0);
+    /* start hidden */
+    transform-origin: left;
+    /* line draws from left */
+    transition: transform 0.3s ease;
 }
 
-@media (max-width: 600px) {
-    .jh-btn {
-        padding: 0.45rem 0.9rem;
-        margin-bottom: 2em;
-    }
+.jh-btn:hover .text {
+    transform: scale(1.1);
+    color: #005f7f;
+}
 
-    .jh-btn svg {
-        width: 20px;
-    }
-
-    .jh-btn .text {
-        font-size: 0.85rem;
-    }
+.jh-btn:hover .text::after {
+    transform: scaleX(1);
 }
 
 

@@ -11,6 +11,10 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap"
     rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=BBH+Sans+Bogle&family=Lacquer&family=Limelight&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap"
+    rel="stylesheet">
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
   <link rel="stylesheet" href="./style.css">
 </head>
@@ -37,19 +41,64 @@
     </div>
     <button class="jh-btn" aria-label="Enter">
       <span class="text">Enter</span>
-      <span class="container" aria-hidden="true">
-        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M6.75 17.25L1.5 12L6.75 6.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-            stroke-linejoin="round" />
-          <path d="M12 4 L12 20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-            stroke-linejoin="round" />
-          <path d="M17.25 6.75L22.5 12L17.25 17.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-            stroke-linejoin="round" />
-        </svg>
-
-      </span>
     </button>
   </div>
+
+
+  <!-- Projects Section -->
+  <div class="projects-container hidden">
+    <div class="projects-header">
+      <h1 class="title">Projects</h1>
+      <button class="projects-exit-btn">Exit</button>
+    </div>
+
+    <div class="projects">
+      <div class="card card1">
+        <div class="title">Realtime Facial Recognition using AWS Cloud Services</div>
+        <div class="content">
+          A web application developed while working at ASU Film School that captures real-time video from CCTV
+          cameras and
+          performs facial recognition using AWS Cloud Services, including Lambda, EC2, OpenCV, S3, and SNS
+          Notifications. <br>
+          The
+          application detects faces in the video stream and matches them against a pre-existing database of
+          known faces stored in
+          AWS S3. <br>
+          It leverages Docker containers for scalable deployment and includes health monitoring
+          metrics to ensure
+          continuous, around-the-clock operation.
+
+        </div>
+      </div>
+
+      <div class="card card2">
+        <div class="title">Traffic Data Visualization Dashboard</div>
+        <div class="content">
+          An interactive dashboard visualizing traffic patterns and congestion trends using Cab trips for the
+          city of Boston and leverages Machine learning models for prediction. Users can explore
+          vehicle flow, peak hours, and route efficiency with dynamic charts and graphs. Built with HTML, CSS,
+          and JavaScript to
+          provide actionable insights for urban traffic analysis.
+
+        </div>
+        <a href="https://github.com/shreyanshraj/ShreyanshRaj-Traffic-Visualization" target="_blank"
+          rel="noopener noreferrer" class="visit-btn">View Project</a>
+      </div>
+
+      <div class="card card3">
+        <div class="title">Mapping Unemployment & Crime Rate in the U.S.</div>
+        <div class="content">
+          An interactive map analyzing how unemployment rates correlate with crime levels across U.S. states
+          in 2019. <br>Data was
+          sourced from Kaggle and processed to show state-level insights using HTML, CSS, and JavaScript.
+        </div>
+        <a href="https://github.com/shreyanshraj/Unemployment-and-Crime-rate-vis" target="_blank"
+          rel="noopener noreferrer" class="visit-btn">Visit Link</a>
+      </div>
+    </div>
+  </div>
+
+
 
   <button id="music">
     <i class="fas fa-play fa-lg"></i>
@@ -69,17 +118,16 @@
     <div class="modal-wrapper">
       <div class="modal-header">
         <h1 class="modal-title">Title place</h1>
-        <button class="modal-exit-button">exit</button>
+        <div class="modal-header-buttons">
+          <a href="#" target="_blank" rel="noopener noreferrer" class="modal-visit-btn hidden">View Project</a>
+          <button class="modal-exit-button">Exit</button>
+        </div>
       </div>
       <div class="modal-content">
         <div class="modal-content-wrapper">
-          <a href="#" target="_blank" rel="noopener noreferrer" class="modal-visit-btn hidden">View Project</a>
           <div class="modal-proj-desc">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Impedit, aut laborum
-            nam, magni, possimus dolore sit quibusdam sequi ratione nesciunt incidunt perferendis itaque asperiores
-            maiores est inventore corrupti doloremque quod?
-            Soluta similique, delectus saepe laudantium a doloremque repellat nihil. Facere consequuntur velit dolores
-            laboriosam pariatur quo reprehenderit cumque, rem fugiat, assumenda minus quas accusamus nam possimus ea
-            maxime ab et.</div>
+            nam, magni, possimus dolore </div>
+          <!-- <a href="#" target="_blank" rel="noopener noreferrer" class="modal-visit-btn hidden">View Project</a> -->
         </div>
       </div>
     </div>

@@ -93,10 +93,17 @@ const modalContent = {
     //      }
     // },
 
-    // Projects- need to update (open new windows showing few projects details or maybe redirect to github page)
+    // Projects
     "Text001_Baked":{
         title: 'View Projects',
         content: 'This is project page',
+        action: () => {
+        
+         if (projectsContainer) {
+                projectsContainer.classList.remove('hidden');
+                projectsContainer.classList.add('visible');
+            }
+        }
     },
 
     // Resume
@@ -123,15 +130,30 @@ const modalContent = {
     },
 
     
-    // "wallpaper_r001":{
-    //     title: 'this is placeholder title',
-    //     content: 'this is project 1, hello world',
-    // },
-    // "wallpaper_l001":{
-    //     title: 'this is placeholder title',
-    //     content: 'this is project 1, hello world',
-    // },
+    "wallpaper_r001":{
+        title: 'View Projects',
+        content: 'This is project page',
+        action: () => {
+        
+         if (projectsContainer) {
+                projectsContainer.classList.remove('hidden');
+                projectsContainer.classList.add('visible');
+            }
+        }
+    },
+    "wallpaper_l001":{
+        title: 'View Projects',
+        content: 'This is project page',
+        action: () => {
+        
+         if (projectsContainer) {
+                projectsContainer.classList.remove('hidden');
+                projectsContainer.classList.add('visible');
+            }
+        }
+    },
     "Legal_Note_Pad_White_Baked": {
+        title: 'To-Do List',
         content: 'Hey there! Looks like you’ve stumbled onto my little to-do corner 😄. <br> Right now, I’m juggling a few things—mainly this Three.js portfolio you’re checking out, making sure it not only works smoothly but also looks and feels just right. At the same time, I’m building a React Native app, experimenting with new features, and keeping my coding muscles busy. <br>Outside of the digital world, I’m training for my next marathon and squeezing in some hiking whenever I can to clear my head and soak up some fresh air. <br>Basically, trying to keep life balanced, productive, and a little adventurous, while having fun with all the projects I’m diving into! 🏃‍♂️', 
     },
     "github_logo_Baked": {
@@ -160,6 +182,21 @@ const modalContent = {
 
     },
 }
+
+const projectsExitBtn = document.querySelector('.projects-exit-btn');
+const projectsContainer = document.querySelector('.projects-container');
+if (projectsExitBtn && projectsContainer) {
+    projectsExitBtn.addEventListener('click', () => {
+        projectsContainer.classList.add('hidden');
+    });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+            const projectsContainer = document.querySelector('.projects-container');
+            setTimeout(() => {
+                projectsContainer.classList.add('visible');
+            }, 300); // delay for smooth animation
+        });
 
 
 const modal = document.querySelector('.modal');
@@ -191,6 +228,10 @@ function showModal(id) {
 
 function hideModal() {
     modal.classList.toggle('hidden');
+    const projectsContainer = document.querySelector('.projects-container');
+    if (projectsContainer && !projectsContainer.classList.contains('hidden')) {
+        projectsContainer.classList.add('hidden');
+    }
 }
 
 
@@ -442,18 +483,17 @@ const musicButton = document.getElementById('music');
 const playIcon = musicButton.querySelector('.fa-play');
 const pauseIcon = musicButton.querySelector('.fa-pause');
 
-let isPlaying = false; // track state
 
 function toggleMusic() {
-  isPlaying = !isPlaying;
-  playIcon.classList.toggle('hidden');
-  pauseIcon.classList.toggle('hidden');
-
-  if (isPlaying) {
-  sound.play();
-} else {
-  fadeOutSound(sound); 
-}
+    if (!sound.isPlaying) {
+        sound.play();
+        playIcon.classList.add('hidden');
+        pauseIcon.classList.remove('hidden');
+    } else {
+        fadeOutSound(sound); 
+        playIcon.classList.remove('hidden');
+        pauseIcon.classList.add('hidden');
+    }
 
 }
 
@@ -469,8 +509,8 @@ function fadeOutSound(sound, duration = 500) {
     if (progress < 1) {
       requestAnimationFrame(fade);
     } else {
-      sound.pause(); // fully stop after fade
-      sound.setVolume(startVolume); // reset volume for next play
+      sound.pause(); 
+      sound.setVolume(startVolume); 
     }
   }
   fade();
@@ -482,7 +522,7 @@ const btn = document.querySelector('.jh-btn');
 // Handle both desktop and mobile taps
 musicButton.addEventListener('click', toggleMusic);
 musicButton.addEventListener('touchstart', (e) => {
-  e.preventDefault(); // prevents double-trigger on some devices
+  e.preventDefault(); 
   toggleMusic();
 }); 
 
@@ -495,7 +535,7 @@ camera.zoom = 1.5;
 
 controls.update();
 
-controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
+controls.enableDamping = true; 
 controls.dampingFactor = 0.05;
 
 controls.minPolarAngle = -Math.PI / 60; // vertical rotation
